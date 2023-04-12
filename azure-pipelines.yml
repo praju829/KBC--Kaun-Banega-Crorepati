@@ -18,9 +18,22 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     javaHomeOption: 'JDKVersion'
 
-- task: SnykSecurityScan@1
+- task: SonarCloudPrepare@1
   inputs:
-    serviceConnectionEndpoint: 'snyk'
-    testType: 'app'
-    monitorWhen: 'always'
-    failOnIssues: false
+    SonarCloud: 'sonarcloud'
+    organization: 'prajktamhapsekar829'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'prajktamhaspsekar829'
+    cliSources: '.'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.java.binaries=.
+
+- task: SonarCloudAnalyze@1 
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
